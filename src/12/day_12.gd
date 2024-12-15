@@ -120,25 +120,25 @@ func measure_land_bulk(a_ground: PackedStringArray, a_pos: Vector2i) -> int:
 
 			# Check up
 			if l_pos.UP.y < 0 or a_ground[l_pos.UP.y][l_pos.UP.x] != l_field:
-				l_fences_0.append(Vector2i(l_pos.UP.x, l_pos.UP.y))
+				l_fences_0.append(Vector2i(l_pos.UP.x as int, l_pos.UP.y as int))
 			elif l_pos.UP not in l_visited_fields and l_pos.UP not in l_to_visit_fields:
 				l_to_visit_fields.append(l_pos.UP)
 
 			# Check down
 			if l_pos.DOWN.y >= a_ground.size() or a_ground[l_pos.DOWN.y][l_pos.DOWN.x] != l_field:
-				l_fences_1.append(Vector2i(l_pos.DOWN.x, l_pos.DOWN.y))
+				l_fences_1.append(Vector2i(l_pos.DOWN.x as int, l_pos.DOWN.y as int))
 			elif l_pos.DOWN not in l_visited_fields and l_pos.DOWN not in l_to_visit_fields:
 				l_to_visit_fields.append(l_pos.DOWN)
 
 			# Check left
 			if l_pos.LEFT.x < 0 or a_ground[l_pos.LEFT.y][l_pos.LEFT.x] != l_field:
-				l_fences_2.append(Vector2i(l_pos.LEFT.x, l_pos.LEFT.y))
+				l_fences_2.append(Vector2i(l_pos.LEFT.x as int, l_pos.LEFT.y as int))
 			elif l_pos.LEFT not in l_visited_fields and l_pos.LEFT not in l_to_visit_fields:
 				l_to_visit_fields.append(l_pos.LEFT)
 
 			# Check right
 			if l_pos.RIGHT.x >= a_ground.size() or a_ground[l_pos.RIGHT.y][l_pos.RIGHT.x] != l_field:
-				l_fences_3.append(Vector2i(l_pos.RIGHT.x, l_pos.RIGHT.y))
+				l_fences_3.append(Vector2i(l_pos.RIGHT.x as int, l_pos.RIGHT.y as int))
 			elif l_pos.RIGHT not in l_visited_fields and l_pos.RIGHT not in l_to_visit_fields:
 				l_to_visit_fields.append(l_pos.RIGHT)
 

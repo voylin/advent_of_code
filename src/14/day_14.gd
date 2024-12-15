@@ -36,7 +36,7 @@ func part_two() -> int:
 		for l_line: String in get_robot_map(l_robots):
 			if l_line.count('#') < 20:
 				continue
-			for l_part: String in l_line.split('.'):
+			for l_part: String in l_line.split(' ', false):
 				if l_part.length() > 18:
 					l_found = true
 					break
@@ -133,7 +133,7 @@ func get_robot_map(a_robots: Array[Robot]) -> PackedStringArray:
 			if Vector2i(x, y) in l_positions:
 				l_map[-1] += '#'
 			else:
-				l_map[-1] += '.'
+				l_map[-1] += ' '
 	return l_map
 
 
