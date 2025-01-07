@@ -35,20 +35,26 @@ func part_one() -> int:
 
 
 func part_two() -> int:
-	return 0
 	var l_file: FileAccess = FileAccess.open(PATH, FileAccess.READ)
 	var l_map: PackedStringArray = get_map_data(l_file)
 	var l_moves: Array[Vector2i] = get_movement_data(l_file)
 	var l_pos: Vector2i = get_robot_init_pos(l_map)
 
 	convert_to_wide_map(l_map)
-	print_map(l_map)
-	l_pos.x *= 2
+	l_pos.x = l_pos.x * 2
+	print(l_pos)
+	print(l_moves.size())
 
 	# Go over all moves in for loop
 	# WE CAN move multiple boxes
 	for l_move: Vector2i in l_moves:
 		var l_next: Vector2i = l_pos + l_move
+		#	print_map(l_map, l_pos)
+		#	primatch l_move:
+		#	pri	Vector2i.UP: print("UP")
+		#	pri	Vector2i.DOWN: print("DOWN")
+		#	pri	Vector2i.LEFT: print("LEFT")
+		#	pri	Vector2i.RIGHT: print("RIGHT")
 
 		if l_map[l_next.y][l_next.x] == '.':
 			l_pos = l_next
@@ -70,7 +76,7 @@ func part_two() -> int:
 						else:
 							l_map[l_target.y][l_target.x] = ']'
 							l_map[l_target.y][l_target.x - 1] = '['
-						l_target -= l_move * 2
+						l_target += l_move * 2
 					l_map[l_next.y][l_next.x] = '.'
 					l_pos = l_next
 					break
@@ -126,7 +132,7 @@ func part_two() -> int:
 					l_pos = l_next
 					break
 
-	print_map(l_map)
+	print_map(l_map, l_pos)
 	return calculate_positions(l_map, '[')
 
 
@@ -188,7 +194,6 @@ func get_robot_init_pos(a_map: PackedStringArray) -> Vector2i:
 
 func calculate_positions(a_map: PackedStringArray, a_char: String) -> int:
 	var l_total: int = 0
-	print_map(a_map)
 
 	for y: int in a_map.size():
 		for x: int in a_map[0].length():
@@ -199,9 +204,12 @@ func calculate_positions(a_map: PackedStringArray, a_char: String) -> int:
 	return l_total
 
 
-func print_map(a_map: PackedStringArray) -> void:
+func print_map(a_map: PackedStringArray, a_pos: Vector2i) -> void:
 	print()
-	for l_line: String in a_map:
+	for y: int in a_map.size():
+		var l_line: String = a_map[y]
+		if y == a_pos.y:
+			l_line[a_pos.x] = '@'
 		print(l_line)
 	print()
 

@@ -2,14 +2,14 @@
 
 [ext_resource type="Script" path="res://main.gd" id="1_0oghq"]
 [ext_resource type="Texture2D" uid="uid://ci03xfclwupir" path="res://assets/2017-02-08   05-55.JPG" id="1_ltq0e"]
-[ext_resource type="Script" path="res://01/day_01.gd" id="3_lphvu"]
-[ext_resource type="Script" path="res://02/day_02.gd" id="4_o3s26"]
-[ext_resource type="Script" path="res://03/day_03.gd" id="5_oj2d4"]
-[ext_resource type="Script" path="res://04/day_04.gd" id="6_3l22y"]
-[ext_resource type="Script" path="res://05/day_05.gd" id="7_nie3u"]
-[ext_resource type="Script" path="res://06/day_06.gd" id="8_an5vd"]
-[ext_resource type="Script" path="res://07/day_07.gd" id="9_og4yy"]
-[ext_resource type="Script" path="res://08/day_08.gd" id="10_dewso"]
+[ext_resource type="Script" uid="uid://bbhsvkneoewjh" path="res://01/day_01.gd" id="3_lphvu"]
+[ext_resource type="Script" uid="uid://cixnahh2eg07j" path="res://02/day_02.gd" id="4_o3s26"]
+[ext_resource type="Script" uid="uid://c38r2hyfhgoos" path="res://03/day_03.gd" id="5_oj2d4"]
+[ext_resource type="Script" uid="uid://mwobidslhh5e" path="res://04/day_04.gd" id="6_3l22y"]
+[ext_resource type="Script" uid="uid://rk5papscppj" path="res://05/day_05.gd" id="7_nie3u"]
+[ext_resource type="Script" uid="uid://covgmwrnds4hc" path="res://06/day_06.gd" id="8_an5vd"]
+[ext_resource type="Script" uid="uid://ciedsy37cae7" path="res://07/day_07.gd" id="9_og4yy"]
+[ext_resource type="Script" uid="uid://ca8qrijt3u4nl" path="res://08/day_08.gd" id="10_dewso"]
 [ext_resource type="Script" path="res://09/day_09.gd" id="11_mces2"]
 [ext_resource type="Script" path="res://10/day_10.gd" id="12_1wi05"]
 [ext_resource type="Script" path="res://11/day_11.gd" id="13_y37h6"]
@@ -18,15 +18,15 @@
 [ext_resource type="Script" path="res://14/day_14.gd" id="16_ehaq3"]
 [ext_resource type="Script" path="res://15/day_15.gd" id="17_k6ac3"]
 [ext_resource type="Script" path="res://16/day_16.gd" id="18_m0ofw"]
-[ext_resource type="Script" path="res://17/day_17.gd" id="19_a08ya"]
-[ext_resource type="Script" path="res://18/day_18.gd" id="20_isow8"]
-[ext_resource type="Script" path="res://19/day_19.gd" id="21_341a0"]
-[ext_resource type="Script" path="res://20/day_20.gd" id="22_6yw8b"]
-[ext_resource type="Script" path="res://21/day_21.gd" id="23_0adlx"]
-[ext_resource type="Script" path="res://22/day_22.gd" id="24_yl76t"]
-[ext_resource type="Script" path="res://23/day_23.gd" id="25_recuy"]
-[ext_resource type="Script" path="res://24/day_24.gd" id="26_wku6o"]
-[ext_resource type="Script" path="res://25/day_25.gd" id="27_4nahj"]
+[ext_resource type="Script" uid="uid://db7cxg0yegsoj" path="res://17/day_17.gd" id="19_a08ya"]
+[ext_resource type="Script" uid="uid://dv3yk118yk56b" path="res://18/day_18.gd" id="20_isow8"]
+[ext_resource type="Script" uid="uid://71v02du0pfi2" path="res://19/day_19.gd" id="21_341a0"]
+[ext_resource type="Script" uid="uid://bsn4qwfukdwmg" path="res://20/day_20.gd" id="22_6yw8b"]
+[ext_resource type="Script" uid="uid://poddeoxy3psm" path="res://21/day_21.gd" id="23_0adlx"]
+[ext_resource type="Script" uid="uid://h08c2i1o6euv" path="res://22/day_22.gd" id="24_yl76t"]
+[ext_resource type="Script" uid="uid://byhpla3i3jx6g" path="res://23/day_23.gd" id="25_recuy"]
+[ext_resource type="Script" uid="uid://c77rvlmp4pant" path="res://24/day_24.gd" id="26_wku6o"]
+[ext_resource type="Script" uid="uid://dg3v1m2neh0d7" path="res://25/day_25.gd" id="27_4nahj"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ymo18"]
 font_size = 100
@@ -52,6 +52,7 @@ offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0oghq")
+day = 16
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
@@ -210,6 +211,13 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("13_y37h6")
+
+[node name="Label" type="Label" parent="Days/11"]
+layout_mode = 0
+offset_right = 620.0
+offset_bottom = 93.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 50
 
 [node name="12" type="Control" parent="Days"]
 anchors_preset = 0
