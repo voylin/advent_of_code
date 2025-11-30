@@ -1,0 +1,127 @@
+[gd_scene load_steps=7 format=3 uid="uid://cyc8ctlwe43cr"]
+
+[ext_resource type="Script" uid="uid://eypdak58rpwg" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="Texture2D" uid="uid://ccis8vs0en4jv" path="res://background.jpg" id="2_0xm2m"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0xm2m"]
+bg_color = Color(1, 1, 1, 0.74509805)
+border_width_right = 5
+border_width_bottom = 5
+border_blend = true
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_0xm2m"]
+font_size = 75
+outline_size = 12
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.28627452)
+shadow_offset = Vector2(5, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h2yge"]
+content_margin_top = 10.0
+bg_color = Color(0.3198733, 0.31987327, 0.31987315, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="LabelSettings" id="LabelSettings_h2yge"]
+font_size = 25
+
+[node name="Main" type="Control" node_paths=PackedStringArray("day_label", "part_one_answer", "part_two_answer")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ig7tw")
+day = 1
+day_label = NodePath("Panel/VBox/DayLabel")
+part_one_answer = NodePath("Panel/VBox/PartOnePanel/VBox/PartOneLineEdit")
+part_two_answer = NodePath("Panel/VBox/PartTwoPanel/VBox/PartTwoLineEdit")
+
+[node name="BackGround" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_0xm2m")
+expand_mode = 3
+
+[node name="Panel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(600, 450)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -225.0
+offset_right = 300.0
+offset_bottom = 225.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0xm2m")
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="DayLabel" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = "Day 00"
+label_settings = SubResource("LabelSettings_0xm2m")
+horizontal_alignment = 1
+
+[node name="PartOnePanel" type="PanelContainer" parent="Panel/VBox"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_h2yge")
+
+[node name="VBox" type="VBoxContainer" parent="Panel/VBox/PartOnePanel"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Label" type="Label" parent="Panel/VBox/PartOnePanel/VBox"]
+layout_mode = 2
+text = "Part one"
+label_settings = SubResource("LabelSettings_h2yge")
+horizontal_alignment = 1
+
+[node name="PartOneLineEdit" type="LineEdit" parent="Panel/VBox/PartOnePanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+placeholder_text = "1234567890"
+alignment = 1
+
+[node name="PartTwoPanel" type="PanelContainer" parent="Panel/VBox"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_h2yge")
+
+[node name="VBox" type="VBoxContainer" parent="Panel/VBox/PartTwoPanel"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Label" type="Label" parent="Panel/VBox/PartTwoPanel/VBox"]
+layout_mode = 2
+text = "Part two"
+label_settings = SubResource("LabelSettings_h2yge")
+horizontal_alignment = 1
+
+[node name="PartTwoLineEdit" type="LineEdit" parent="Panel/VBox/PartTwoPanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+placeholder_text = "1234567890"
+alignment = 1
