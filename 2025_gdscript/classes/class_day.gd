@@ -11,7 +11,7 @@ func get_data_path() -> String:
 
 func get_test_data_path() -> String:
 	@warning_ignore("UNSAFE_METHOD_ACCESS")
-	return self.get_script().resource_path.get_base_dir() + "/test_data.txt"
+	return self.get_script().resource_path.get_base_dir() + "/data_test.txt"
 
 
 @abstract func part_one() -> int
