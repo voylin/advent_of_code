@@ -40,7 +40,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ig7tw")
-day = 1
 day_label = NodePath("Panel/VBox/DayLabel")
 part_one_answer = NodePath("Panel/VBox/PartOnePanel/VBox/PartOneLineEdit")
 part_two_answer = NodePath("Panel/VBox/PartTwoPanel/VBox/PartTwoLineEdit")
