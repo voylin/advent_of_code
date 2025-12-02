@@ -17,6 +17,7 @@ https://adventofcode.com/2025
 https://github.com/voylin/advent_of_code"
 run/main_scene="uid://cyc8ctlwe43cr"
 config/features=PackedStringArray("4.5", "GL Compatibility")
+boot_splash/show_image=false
 config/icon="res://icon.svg"
 
 [autoload]

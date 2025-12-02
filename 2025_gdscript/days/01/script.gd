@@ -13,15 +13,10 @@ func part_one() -> int:
 	var dial: int = 50
 
 	for turn: String in data:
-		var left: bool = turn[0] == "L"
+		var addition: int = -1 if turn[0] == "L" else 1
 
 		for _i: int in int(turn.substr(1)):
-			dial += -1 if left else 1
-
-			if dial < 0:
-				dial = 99
-			elif dial > 99:
-				dial = 0
+			dial = wrapi(dial + addition, 0 , 100)
 
 			if dial == 0:
 				answer_two += 1
