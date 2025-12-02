@@ -1,62 +1,33 @@
+@warning_ignore_start("INTEGER_DIVISION")
 extends Day
 
-var data_path: String = get_test_data_path()
-#var data_path: String = get_data_path()
+#var data_path: String = get_test_data_path()
+var data_path: String = get_data_path()
+
+var data: PackedStringArray = Data.get_full_string(data_path).split(',')
+var answers: PackedInt64Array = [0, 0]
 
 
 
 func part_one() -> int:
-	var data: PackedStringArray = Data.get_full_string(data_path).split(',')
-	var invalid_ids: PackedInt64Array = []
-	var amount: int = 0
-
 	for entry: String in data:
-		var num_1: String = entry.split("-")[0]
-		var num_2: String = entry.split("-")[1]
+		var nums: PackedInt64Array = Array(entry.split("-"))
 
-		if num_1.length() == num_2.length() and num_1.length() % 2 != 0:
-			continue
+		for num: String in PackedStringArray(range(nums[0], nums[1] + 1)):
+			if test_num(num, num.length()):
+				answers[0] += int(num)if num == num.left(num.length() / 2).repeat(2) else 0
+				answers[1] += int(num)
 
-		for i: int in range(int(num_1), int(num_2) + 1):
-			var num: String = str(i)
-
-			if num.length() % 2 != 0:
-				continue
-
-			@warning_ignore("NARROWING_CONVERSION")
-			var length: int = num.length() / 2.0
-
-			if str(i).left(length) == num.right(length):
-				@warning_ignore("return_value_discarded")
-				invalid_ids.append(i)
-		
-	for i: int in invalid_ids:
-		amount += i
-
-	return amount
+	return answers[0]
 
 
-# 4174379265
 func part_two() -> int:
-	var data: PackedStringArray = Data.get_full_string(data_path).split(',')
-	var invalid_ids: PackedInt64Array = []
-	var amount: int = 0
+	return answers[1]
 
-	for entry: String in data:
-		var num_1: String = entry.split("-")[0]
-		var num_2: String = entry.split("-")[1]
 
-		for i: int in range(int(num_1), int(num_2) + 1):
-			for x: int in range(1, str(i).length()):
-				var num: String = str(i)
-				var occurances: int = num.count(num.left(x))
+func test_num(num: String, length: int) -> bool:
+	for x: int in range(1, (length / 2) + 1):
+		if length % x == 0 and num.count(num.left(x)) * x  == length:
+			return true
 
-				if occurances * x  == num.length():
-					@warning_ignore("return_value_discarded")
-					invalid_ids.append(i)
-					break
-		
-	for i: int in invalid_ids:
-		amount += i
-
-	return amount
+	return false
