@@ -105,3 +105,11 @@ func get_packed_float_array(a_file_path: String, a_split: String) -> Array[Packe
 
 	return new_data
 
+
+func get_packed_int_64_sum(array: PackedInt64Array) -> int:
+	var sum: int = 0
+
+	for i: int in array:
+		sum += i
+
+	return sum
