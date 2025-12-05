@@ -1,66 +1,67 @@
 extends Day
 
+const POSITIONS: Array[Vector2i] = [
+	Vector2i(-1, -1), Vector2i(-1, 0), Vector2i(-1, 1),
+	Vector2i(1, -1),  Vector2i(1, 0),  Vector2i(1, 1),
+	Vector2i(0, -1),  Vector2i(0, 1)]
+
+
 #var data_path: String = get_test_data_path()
 var data_path: String = get_data_path()
 
 var data: PackedStringArray = Data.get_string_array(data_path)
+var paper: Dictionary[int, PackedInt32Array] = {}
 
+var answers: PackedInt32Array = [0, -1]
+
+
+
+func _init() -> void:
+	for y: int in data[0].length():
+		paper[y] = PackedInt32Array()
+
+		for x: int in data.size():
+			if data[y][x] == '@':
+				var _err: bool = paper[y].append(x)
 
 
 func part_one() -> int:
-	var size: Vector2i = Vector2i(data[0].length(), data.size())
-	var taken: Array[Vector2i] = []
-	var count: int = 0
+	for y: int in paper:
+		for x: int in paper[y]:
+			if _check_sides(x, y) < 4:
+				answers[0] += 1
 
-	for y: int in size.y:
-		for x: int in size.x:
-			if data[y][x] != '.' and _check_sides(Vector2i(x, y), size) < 4:
-				taken.append(Vector2i(x, y))
-				count += 1
-
-	return count
+	return answers[0]
 
 
-## Scan every block if an @ is present. Put them into an array.
-## Then check if
 func part_two() -> int:
-	var size: Vector2i = Vector2i(data[0].length(), data.size())
 	var count: int = 0
 
-	while true:
+	while answers[1] != count:
 		var taken: Array[Vector2i] = []
+		answers[1] = count
 
-		for y: int in size.y:
-			for x: int in size.x:
-				if data[y][x] != '.' and _check_sides(Vector2i(x, y), size) < 4:
+		for y: int in paper:
+			for x: int in paper[y]:
+				if _check_sides(x, y) < 4:
 					taken.append(Vector2i(x, y))
+					count += 1
 
 		for pos: Vector2i in taken:
-			data[pos.y][pos.x] = '.'
-			count += 1
+			paper[pos.y].remove_at(paper[pos.y].find(pos.x))
 
-		if taken.size() == 0:
-			break
-
-	return count
+	return answers[1]
 
 
-func _check_sides(pos: Vector2i, size: Vector2i) -> int:
+func _check_sides(x_pos: int, y_pos: int) -> int:
 	var count: int = 0
 
-	for y: int in range(-1, 2, 1):
-		for x: int in range(-1, 2, 1):
-			var new_y: int = pos.y + y
-			var new_x: int =  pos.x + x
+	for pos: Vector2i in POSITIONS:
+		var new_y: int = pos.y + y_pos
 
-			if new_y == -1 or new_y >= size.y:
-				continue
-			if new_x == -1 or new_x >= size.x:
-				continue
-			if Vector2i(x, y) == Vector2i(0, 0):
-				continue
-
-			if data[new_y][new_x] == '@':
-				count += 1
+		if paper.has(new_y) and paper[new_y].has(pos.x + x_pos):
+			count += 1
+		if count == 4:
+			return 4
 
 	return count
