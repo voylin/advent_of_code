@@ -1,5 +1,8 @@
 extends Day
 
+#var data_path: String = get_test_data_path()
+var data_path: String = get_data_path()
+
 
 
 func part_one() -> int:
