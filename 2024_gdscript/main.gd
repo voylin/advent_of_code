@@ -1,40 +1,70 @@
 extends Control
 
-@export_range(0, 25) var day: int
-@export_range(0,2) var part: int
 
-@onready var day_label: Label = find_child("DayLabel")
+@export_range(1, 12) var day: int = Time.get_date_dict_from_system().day
 
-@onready var day_one_box: PanelContainer = find_child("PartOneBox")
-@onready var day_one_label: RichTextLabel = find_child("PartOneValue")
+@export_group("Nodes")
+@export var day_label: Label
 
-@onready var day_two_box: PanelContainer = find_child("PartTwoBox")
-@onready var day_two_label: RichTextLabel = find_child("PartTwoValue")
+@export var part_one_answer: LineEdit
+@export var part_two_answer: LineEdit
+@export var part_one_time_label: Label
+@export var part_two_time_label: Label
+
+
+const PRINT_STYLE: String = "[color=dim_gray][i]"
+
+
+var current_day: Day
+var running: bool = false
+
 
 
 func _ready() -> void:
-	if day == 0: # Select current day
-		day = Time.get_date_dict_from_system().day
-	
-	var l_print_string: String = "Part %s result: %s"
-	
-	day_label.text = "Day %02d" % day
-	print_rich("[b]Day %02d[/b]" % day)
-
-	if part == 1 or part == 0:
-		var l_value: String = str(find_child("%02d" % day).call("part_one"))
-
-		day_one_label.text = "[center]%s" % l_value
-		print(l_print_string % ["one", l_value])
-	else:
-		day_one_box.visible = false
+	run_day()
 
 
-	if part == 2 or part == 0:
-		var l_value: String = str(find_child("%02d" % day).call("part_two"))
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("re-run"):
+		if running:
+			printerr("Still running")
+			return
 
-		day_two_label.text = "[center]%s" % l_value
-		print(l_print_string % ["two", l_value])
-	else:
-		day_two_box.visible = false
+		# Reset labels.
+		part_one_answer.text = ""
+		part_two_answer.text = ""
+		part_one_time_label.text = "0 msec "
+		part_two_time_label.text = "0 msec "
 
+		run_day()
+
+
+func run_day() -> void:
+	running = true
+	@warning_ignore("UNSAFE_METHOD_ACCESS")
+	current_day = load("res://days/%02d/script.gd" % day).new()
+	day_label.text =  "Day %02d" % day
+
+	await _run(part_one_answer, part_one_time_label, current_day.part_one)
+	await _run(part_two_answer, part_two_time_label, current_day.part_two)
+
+	print_rich(PRINT_STYLE, "Part one: ", part_one_time_label.text)
+	print_rich(PRINT_STYLE, "Part two: ", part_two_time_label.text)
+	print()
+	print_rich(PRINT_STYLE, "Answer part one: ", part_one_answer.text)
+	print_rich(PRINT_STYLE, "Answer part two: ", part_two_answer.text)
+	running = false
+
+
+func _run(answer_box: LineEdit, time_label: Label, callable: Callable) -> int:
+	# Quick await so screen can update
+	await RenderingServer.frame_post_draw
+
+	var now: int = Time.get_ticks_msec()
+	var answer: int = callable.call()
+	var total_time: int = Time.get_ticks_msec() - now
+
+	answer_box.text = str(answer)
+	time_label.text = "%s msec " % total_time
+
+	return total_time

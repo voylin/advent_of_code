@@ -1,304 +1,144 @@
-[gd_scene load_steps=30 format=3 uid="uid://cl6p5x644f4qt"]
+[gd_scene load_steps=8 format=3 uid="uid://cyc8ctlwe43cr"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_0oghq"]
-[ext_resource type="Texture2D" uid="uid://ci03xfclwupir" path="res://assets/2017-02-08   05-55.JPG" id="1_ltq0e"]
-[ext_resource type="Script" uid="uid://bbhsvkneoewjh" path="res://01/day_01.gd" id="3_lphvu"]
-[ext_resource type="Script" uid="uid://cixnahh2eg07j" path="res://02/day_02.gd" id="4_o3s26"]
-[ext_resource type="Script" uid="uid://c38r2hyfhgoos" path="res://03/day_03.gd" id="5_oj2d4"]
-[ext_resource type="Script" uid="uid://mwobidslhh5e" path="res://04/day_04.gd" id="6_3l22y"]
-[ext_resource type="Script" uid="uid://rk5papscppj" path="res://05/day_05.gd" id="7_nie3u"]
-[ext_resource type="Script" uid="uid://covgmwrnds4hc" path="res://06/day_06.gd" id="8_an5vd"]
-[ext_resource type="Script" uid="uid://ciedsy37cae7" path="res://07/day_07.gd" id="9_og4yy"]
-[ext_resource type="Script" uid="uid://ca8qrijt3u4nl" path="res://08/day_08.gd" id="10_dewso"]
-[ext_resource type="Script" path="res://09/day_09.gd" id="11_mces2"]
-[ext_resource type="Script" path="res://10/day_10.gd" id="12_1wi05"]
-[ext_resource type="Script" path="res://11/day_11.gd" id="13_y37h6"]
-[ext_resource type="Script" path="res://12/day_12.gd" id="14_l4vyu"]
-[ext_resource type="Script" path="res://13/day_13.gd" id="15_oi84n"]
-[ext_resource type="Script" path="res://14/day_14.gd" id="16_ehaq3"]
-[ext_resource type="Script" path="res://15/day_15.gd" id="17_k6ac3"]
-[ext_resource type="Script" path="res://16/day_16.gd" id="18_m0ofw"]
-[ext_resource type="Script" uid="uid://db7cxg0yegsoj" path="res://17/day_17.gd" id="19_a08ya"]
-[ext_resource type="Script" uid="uid://dv3yk118yk56b" path="res://18/day_18.gd" id="20_isow8"]
-[ext_resource type="Script" uid="uid://71v02du0pfi2" path="res://19/day_19.gd" id="21_341a0"]
-[ext_resource type="Script" uid="uid://bsn4qwfukdwmg" path="res://20/day_20.gd" id="22_6yw8b"]
-[ext_resource type="Script" uid="uid://poddeoxy3psm" path="res://21/day_21.gd" id="23_0adlx"]
-[ext_resource type="Script" uid="uid://h08c2i1o6euv" path="res://22/day_22.gd" id="24_yl76t"]
-[ext_resource type="Script" uid="uid://byhpla3i3jx6g" path="res://23/day_23.gd" id="25_recuy"]
-[ext_resource type="Script" uid="uid://c77rvlmp4pant" path="res://24/day_24.gd" id="26_wku6o"]
-[ext_resource type="Script" uid="uid://dg3v1m2neh0d7" path="res://25/day_25.gd" id="27_4nahj"]
+[ext_resource type="Script" uid="uid://eypdak58rpwg" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="Texture2D" uid="uid://ccis8vs0en4jv" path="res://background.jpg" id="2_0xm2m"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_ymo18"]
-font_size = 100
-outline_size = 20
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0xm2m"]
+bg_color = Color(1, 1, 1, 0.74509805)
+border_width_right = 5
+border_width_bottom = 5
+border_blend = true
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_0xm2m"]
+font_size = 75
+outline_size = 12
 outline_color = Color(0, 0, 0, 1)
-shadow_size = 17
-shadow_color = Color(0, 0, 0, 0.65098)
-shadow_offset = Vector2(6, 8)
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.28627452)
+shadow_offset = Vector2(5, 5)
 
-[sub_resource type="LabelSettings" id="LabelSettings_uu05b"]
-font_size = 40
-shadow_size = 7
-shadow_color = Color(0, 0, 0, 0.505882)
-shadow_offset = Vector2(5, 3)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h2yge"]
+content_margin_top = 10.0
+bg_color = Color(0.3198733, 0.31987327, 0.31987315, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
 
-[node name="Control" type="Control"]
+[sub_resource type="LabelSettings" id="LabelSettings_h2yge"]
+font_size = 25
+
+[sub_resource type="LabelSettings" id="LabelSettings_1bvp3"]
+font_color = Color(0.6073017, 0.60730165, 0.60730165, 1)
+
+[node name="Main" type="Control" node_paths=PackedStringArray("day_label", "part_one_answer", "part_two_answer", "part_one_time_label", "part_two_time_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 1.0
-offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_0oghq")
-day = 16
+script = ExtResource("1_ig7tw")
+day = 5
+day_label = NodePath("Panel/VBox/DayLabel")
+part_one_answer = NodePath("Panel/VBox/PartOnePanel/VBox/PartOneLineEdit")
+part_two_answer = NodePath("Panel/VBox/PartTwoPanel/VBox/PartTwoLineEdit")
+part_one_time_label = NodePath("Panel/VBox/PartOnePanel/PartOneTimeLabel")
+part_two_time_label = NodePath("Panel/VBox/PartTwoPanel/PartTwoTimeLabel")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="BackGround" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_ltq0e")
+texture = ExtResource("2_0xm2m")
 expand_mode = 3
-stretch_mode = 6
 
-[node name="White" type="ColorRect" parent="Background"]
+[node name="Panel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(600, 450)
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -225.0
+offset_right = 300.0
+offset_bottom = 225.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(1, 1, 1, 0.419608)
+theme_override_styles/panel = SubResource("StyleBoxFlat_0xm2m")
 
-[node name="VBox" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 20
-
-[node name="Spacer" type="Control" parent="VBox"]
-custom_minimum_size = Vector2(0, 50)
+[node name="VBox" type="VBoxContainer" parent="Panel"]
 layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
 
-[node name="DayLabel" type="Label" parent="VBox"]
+[node name="DayLabel" type="Label" parent="Panel/VBox"]
 layout_mode = 2
 text = "Day 00"
-label_settings = SubResource("LabelSettings_ymo18")
+label_settings = SubResource("LabelSettings_0xm2m")
 horizontal_alignment = 1
 
-[node name="PartOneBox" type="PanelContainer" parent="VBox"]
-custom_minimum_size = Vector2(300, 110)
+[node name="PartOnePanel" type="PanelContainer" parent="Panel/VBox"]
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_h2yge")
 
-[node name="VBox" type="VBoxContainer" parent="VBox/PartOneBox"]
+[node name="VBox" type="VBoxContainer" parent="Panel/VBox/PartOnePanel"]
 layout_mode = 2
-alignment = 1
+theme_override_constants/separation = 7
 
-[node name="TitleLabel" type="Label" parent="VBox/PartOneBox/VBox"]
+[node name="Label" type="Label" parent="Panel/VBox/PartOnePanel/VBox"]
 layout_mode = 2
-text = "Part 1"
-label_settings = SubResource("LabelSettings_uu05b")
+text = "Part one"
+label_settings = SubResource("LabelSettings_h2yge")
 horizontal_alignment = 1
 
-[node name="PartOneValue" type="RichTextLabel" parent="VBox/PartOneBox/VBox"]
+[node name="PartOneLineEdit" type="LineEdit" parent="Panel/VBox/PartOnePanel/VBox"]
 layout_mode = 2
-focus_mode = 2
-theme_override_font_sizes/normal_font_size = 28
-bbcode_enabled = true
-text = "[center]1234567890"
-fit_content = true
-selection_enabled = true
+theme_override_font_sizes/font_size = 30
+alignment = 1
 
-[node name="PartTwoBox" type="PanelContainer" parent="VBox"]
-custom_minimum_size = Vector2(300, 110)
+[node name="PartOneTimeLabel" type="Label" parent="Panel/VBox/PartOnePanel"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "0 msec "
+label_settings = SubResource("LabelSettings_1bvp3")
+
+[node name="PartTwoPanel" type="PanelContainer" parent="Panel/VBox"]
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_h2yge")
 
-[node name="VBox" type="VBoxContainer" parent="VBox/PartTwoBox"]
+[node name="VBox" type="VBoxContainer" parent="Panel/VBox/PartTwoPanel"]
 layout_mode = 2
-alignment = 1
+theme_override_constants/separation = 7
 
-[node name="TitleLabel" type="Label" parent="VBox/PartTwoBox/VBox"]
+[node name="Label" type="Label" parent="Panel/VBox/PartTwoPanel/VBox"]
 layout_mode = 2
-text = "Part 2"
-label_settings = SubResource("LabelSettings_uu05b")
+text = "Part two"
+label_settings = SubResource("LabelSettings_h2yge")
 horizontal_alignment = 1
 
-[node name="PartTwoValue" type="RichTextLabel" parent="VBox/PartTwoBox/VBox"]
+[node name="PartTwoLineEdit" type="LineEdit" parent="Panel/VBox/PartTwoPanel/VBox"]
 layout_mode = 2
-focus_mode = 2
-theme_override_font_sizes/normal_font_size = 28
-bbcode_enabled = true
-text = "[center]1234567890"
-fit_content = true
-selection_enabled = true
+theme_override_font_sizes/font_size = 30
+alignment = 1
 
-[node name="Days" type="Control" parent="."]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="01" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("3_lphvu")
-
-[node name="02" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("4_o3s26")
-
-[node name="03" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("5_oj2d4")
-
-[node name="04" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("6_3l22y")
-
-[node name="05" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("7_nie3u")
-
-[node name="06" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("8_an5vd")
-
-[node name="07" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("9_og4yy")
-
-[node name="08" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("10_dewso")
-
-[node name="09" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("11_mces2")
-
-[node name="10" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("12_1wi05")
-
-[node name="11" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("13_y37h6")
-
-[node name="Label" type="Label" parent="Days/11"]
-layout_mode = 0
-offset_right = 620.0
-offset_bottom = 93.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
-
-[node name="12" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("14_l4vyu")
-
-[node name="13" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("15_oi84n")
-
-[node name="14" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("16_ehaq3")
-
-[node name="15" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("17_k6ac3")
-
-[node name="16" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("18_m0ofw")
-
-[node name="17" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("19_a08ya")
-
-[node name="18" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("20_isow8")
-
-[node name="19" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("21_341a0")
-
-[node name="20" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("22_6yw8b")
-
-[node name="21" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("23_0adlx")
-
-[node name="22" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("24_yl76t")
-
-[node name="23" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("25_recuy")
-
-[node name="24" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("26_wku6o")
-
-[node name="25" type="Control" parent="Days"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("27_4nahj")
+[node name="PartTwoTimeLabel" type="Label" parent="Panel/VBox/PartTwoPanel"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "0 msec "
+label_settings = SubResource("LabelSettings_1bvp3")

@@ -1,0 +1,120 @@
+extends Node
+
+
+
+func get_full_string(file_path: String, full_text: bool = false) -> String:
+	var string: String = ""
+
+	if full_text:
+		var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
+
+		return file.get_as_text(true)
+	else:
+		for line: String in get_string_array(file_path):
+			string += line
+
+	return string
+
+
+
+func get_string_array(file_path: String) -> PackedStringArray:
+	var data: PackedStringArray = []
+	var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
+	var line: String = file.get_line()
+
+	while !file.eof_reached():
+		@warning_ignore("return_value_discarded")
+		data.append(line)
+		line = file.get_line()
+
+	return data
+
+
+func get_packed_string_array(file_path: String, a_split: String) -> Array[PackedStringArray]:
+	var data: PackedStringArray = get_string_array(file_path)
+	var new_data: Array[PackedStringArray] = []
+
+	for line: String in data:
+		@warning_ignore("return_value_discarded")
+		new_data.append(line.split(a_split))
+
+	return new_data
+	
+
+func get_int_array(file_path: String) -> PackedInt64Array:
+	var data: PackedStringArray = get_string_array(file_path)
+	var new_data: PackedInt64Array = []
+
+	for line: String in data:
+		@warning_ignore("return_value_discarded")
+		new_data.append(int(line))
+
+	return new_data
+
+
+func get_packed_int_array(file_path: String, a_split: String) -> Array[PackedInt64Array]:
+	var data: Array[PackedStringArray] = get_packed_string_array(file_path, a_split)
+	var new_data: Array[PackedInt64Array] = []
+
+	for line: PackedStringArray in data:
+		var new_line: PackedInt64Array = []
+
+		for entry: String in line:
+			@warning_ignore("return_value_discarded")
+			new_line.append(int(entry))
+				
+		new_data.append(new_line)
+
+	return new_data
+
+
+func get_packed_int32_array(file_path: String, a_split: String) -> Array[PackedInt32Array]:
+	var data: Array[PackedStringArray] = get_packed_string_array(file_path, a_split)
+	var new_data: Array[PackedInt32Array] = []
+
+	for line: PackedStringArray in data:
+		var new_line: PackedInt32Array = []
+
+		for entry: String in line:
+			@warning_ignore("return_value_discarded")
+			new_line.append(int(entry))
+				
+		new_data.append(new_line)
+
+	return new_data
+
+
+func get_float_array(file_path: String) -> PackedFloat64Array:
+	var data: PackedStringArray = get_string_array(file_path)
+	var new_data: PackedFloat64Array = []
+
+	for line: String in data:
+		@warning_ignore("return_value_discarded")
+		new_data.append(float(line))
+
+	return new_data
+
+
+func get_packed_float_array(file_path: String, a_split: String) -> Array[PackedFloat64Array]:
+	var data: Array[PackedStringArray] = get_packed_string_array(file_path, a_split)
+	var new_data: Array[PackedFloat64Array] = []
+
+	for line: PackedStringArray in data:
+		var new_line: PackedFloat64Array = []
+
+		for entry: String in line:
+			@warning_ignore("return_value_discarded")
+			new_line.append(float(entry))
+				
+		new_data.append(new_line)
+
+	return new_data
+
+
+func get_packed_int_64_sum(array: PackedInt64Array) -> int:
+	var sum: int = 0
+
+	for i: int in array:
+		sum += i
+
+	return sum
