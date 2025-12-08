@@ -3,12 +3,12 @@ extends Day
 #var data_path: String = get_test_data_path()
 var data_path: String = get_data_path()
 
+var data: PackedStringArray = Data.get_string_array(data_path)
 var answers: PackedInt64Array = [0, 1]
 
 
 
 func part_one() -> int:
-	var data: PackedStringArray = Data.get_string_array(data_path)
 	var beams: Array = [data[0].find('S')]
 
 	for i: int in (data.size() / 2.0) - 1:
@@ -18,6 +18,7 @@ func part_one() -> int:
 		for beam: int in beams:
 			if line[beam] == '^':
 				answers[0] += 1
+
 				if !new_beams.has(beam-1): new_beams.append(beam-1)
 				if !new_beams.has(beam+1): new_beams.append(beam+1)
 			elif !new_beams.has(beam):
@@ -29,23 +30,16 @@ func part_one() -> int:
 
 
 func part_two() -> int:
-	var data: PackedStringArray = Data.get_string_array(data_path)
 	var beams: Dictionary = { data[0].find('S'): 1 }
 
 	for i: int in (data.size() / 2.0) - 1:
-		var line: String = data[2+i*2]
-		
 		for beam: int in beams:
-			if line[beam] == '^':
-				answers[1] += beams[beam]
+			if data[2+i*2][beam] == '^':
+				var value: int = beams[beam]
 
-				if !beams.has(beam-1):
-					beams[beam-1] = 0
-				if !beams.has(beam+1):
-					beams[beam+1] = 0
-
-				beams[beam-1] += beams[beam]
-				beams[beam+1] += beams[beam]
+				beams[beam - 1] = beams.get(beam - 1, 0) + value
+				beams[beam + 1] = beams.get(beam + 1, 0) + value
 				beams[beam] = 0
+				answers[1] += value
 
 	return answers[1]
