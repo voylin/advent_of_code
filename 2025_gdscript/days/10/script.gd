@@ -46,13 +46,20 @@ func _init() -> void:
 
 func part_one() -> int:
 	for machine: Machine in machines:
-		answers[0] += machine.calculate()
+		answers[0] += machine.calculate_lights()
 
 	return answers[0]
 
 
 func part_two() -> int:
-	return 0
+	for machine: Machine in machines:
+		var value: int = machine.calculate_joltage()
+
+		print(value)
+		answers[1] += value
+		#answers[1] += machine.calculate_joltage()
+
+	return answers[1]
 
 
 class Machine:
@@ -68,7 +75,7 @@ class Machine:
 
 
 	# use %2 = 0 is off and 1 is on	
-	func calculate() -> int:
+	func calculate_lights() -> int: # Binary approach
 		var state: PackedInt32Array = []
 		var presses: int = buttons.size()
 		var button_presses: PackedInt32Array = []
@@ -83,15 +90,16 @@ class Machine:
 
 			for i: int in button_presses.size():
 				if button_presses[i] == 2:
-					button_presses[i] = 0
-
 					if i + 1 == buttons.size():
 						break
 
+					button_presses[i] = 0
 					button_presses[i + 1] += 1
 
-			if button_presses.count(1) >= presses:
-				if button_presses.count(1) == buttons.size():
+			var count: int = button_presses.count(1)
+
+			if count >= presses:
+				if count == buttons.size():
 					break
 				continue
 				
@@ -99,12 +107,50 @@ class Machine:
 			for i: int in button_presses.size():
 				if button_presses[i] == 1:
 					for x: int in buttons[i]:
-						state[x] = (state[x] + 1) % 2
+						state[x] ^= 1
 
 			if state == desired_state:
-				var presses_now: int = button_presses.count(1)
-
-				presses = min(presses_now, presses)
+				presses = min(button_presses.count(1), presses)
 
 		return presses # Failed
 
+
+	func calculate_joltage() -> int:
+		var state: PackedInt32Array = []
+		var button_presses: Array[PackedInt32Array] = []
+		var history: Dictionary = { state: 0 }
+		var turn: int = 0
+
+		state.resize(joltage.size())
+		state.fill(0)
+		button_presses.append(state)
+		history[state] = 0
+
+		while turn < button_presses.size():
+			var current_state: PackedInt32Array = button_presses[turn].duplicate()
+			var depth: int = history[current_state]
+
+			for button_group: PackedInt32Array in buttons:
+				var next_state: PackedInt32Array = current_state.duplicate()
+				var valid: bool = true
+
+				for i: int in button_group:
+					next_state[i] += 1
+
+					if next_state[i] > joltage[i]:
+						valid = false
+						break
+
+				if not valid:
+					continue
+				elif next_state == joltage:
+					return depth + 1
+
+				# New state so add to list
+				if not history.has(next_state):
+					history[next_state] = depth + 1
+					button_presses.append(next_state)
+
+			turn += 1
+
+		return 0
