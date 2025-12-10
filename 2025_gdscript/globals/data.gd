@@ -2,13 +2,18 @@ extends Node
 
 
 
-func get_full_string(a_file_path: String) -> String:
-	var l_string: String = ""
+func get_full_string(a_file_path: String, full_text: bool = false) -> String:
+	var string: String = ""
 
-	for l_line: String in get_string_array(a_file_path):
-		l_string += l_line
+	if full_text:
+		var file: FileAccess = FileAccess.open(a_file_path, FileAccess.READ)
 
-	return l_string
+		return file.get_as_text(true)
+	else:
+		for line: String in get_string_array(a_file_path):
+			string += line
+
+	return string
 
 
 
