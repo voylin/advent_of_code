@@ -21,6 +21,7 @@ var running: bool = false
 
 
 func _ready() -> void:
+	await RenderingServer.frame_post_draw
 	run_day()
 
 
