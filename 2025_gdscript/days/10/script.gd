@@ -6,6 +6,8 @@ var data_path: String = get_data_path()
 var machines: Array[Machine] = []
 var answers: PackedInt64Array = [0, 0]
 
+var mutex: Mutex = Mutex.new()
+
 
 
 func _init() -> void:
@@ -52,27 +54,54 @@ func part_one() -> int:
 
 
 func part_two() -> int:
+	var tasks: PackedInt64Array = []
+	var remaining: int = machines.size()
+
 	for machine: Machine in machines:
-		var value: int = machine.calculate_joltage()
-		print(value)
-		answers[1] += value
-		#answers[1] += machine.calculate_joltage()
+		tasks.append(WorkerThreadPool.add_task(_run_part_two.bind(machine)))
+
+	print("Start handling ", machines.size(), " machines...")
+
+	while tasks.size() != 0:
+		await RenderingServer.frame_pre_draw
+		for task_id: int in tasks:
+			if WorkerThreadPool.is_task_completed(task_id):
+				remaining -= 1
+				print("remaining: ", remaining, "/", machines.size())
+				WorkerThreadPool.wait_for_task_completion(task_id)
+				tasks.remove_at(tasks.find(task_id))
 
 	return answers[1]
+
+
+# 401 is too low
+func _run_part_two(machine: Machine) -> void:
+	var value: int = machine.calculate_joltage()
+	mutex.lock()
+	#print(value)
+
+	if value == 0:
+		printerr("machine returned 0!!")
+		printerr(machine.joltage)
+
+	answers[1] += value
+	mutex.unlock()
+	
 
 
 class Machine:
 	var desired_state: PackedInt32Array = [] # 0000
 	var buttons: Array[PackedInt32Array] = []
 	var joltage: PackedInt32Array = []
-	var joltage_int: int = 0
+	var joltage_presses: int = 0
 
 
 	func _init(lights: PackedInt32Array, b: Array[PackedInt32Array], j: PackedInt32Array) -> void:
 		desired_state = lights
 		buttons = b
 		joltage = j
-		joltage_int = _encode(j)
+
+		buttons.sort_custom(_sort_buttons)
 
 
 	# use %2 = 0 is off and 1 is on	
@@ -117,71 +146,102 @@ class Machine:
 
 
 	func calculate_joltage() -> int:
-		var state: int = 0
-		var button_presses: PackedInt64Array = []
-		var history: Dictionary[int, int] = { state: 0 }
-		var turn: int = 0
+		# Use recursion. Start with the maximum amount.
+		# Reverse button array according to size.
+		# For each button in button group, we check the maximum and take the minimum.
+		# Check if all values are below, if up, we continue to do -1 till we get
+		# a combination which fits.
+		# Like this we loop over all numbers till we got a perfect fit.
+		# Return value should be "false" didn't fit, try again or "true" for fit.
+		# We store the correct button_presses in a new class variable called,
+		# Joltage button presses.
+		var temp_joltage: PackedInt32Array = []
 
-		button_presses.append(state)
-		history[state] = 0
+		temp_joltage.resize(joltage.size())
 
-		while turn < button_presses.size():
-			var depth: int = history[button_presses[turn]]
+		# Check if there is only one button group which can access a certain
+		# joltage number.
+		var button_ids: PackedInt32Array = []
+		for group: PackedInt32Array in buttons:
+			button_ids += group
 
-			for button_group: PackedInt32Array in buttons:
-				var next_state: int = button_presses[turn]
-				var valid: bool = true
+		var lonely_ids: PackedInt32Array = []
+		for x: int in joltage.size():
+			if button_ids.count(x) == 1:
+				lonely_ids.append(x)
 
-				for i: int in button_group:
-					var shift: int = i * 8
-					var old_value: int = (next_state >> shift) & 0xFF
-					var new_value: int = old_value + 1
+		# If found, we count the presses to joltage_presses and remove the
+		# presses from joltage.
+		if lonely_ids.size() != 0:
+			for lonely_id: int in lonely_ids:
+				for group: PackedInt32Array in buttons:
+					if group.has(lonely_id):
+						var total_presses: int = joltage[lonely_id]
 
-					if new_value > joltage[i]:
-						valid = false
-						break
+						for x: int in group:
+							joltage[x] -= total_presses
 
-					# We remove the bits in the area of the 8 bits we updated
-					# ~() == bitwise not, so we set them all to opposite 1.
-					next_state &= ~(0xFF << shift)
+						joltage_presses += total_presses
 
-					# Now we do the bitwise OR to change all needed 0's by the
-					# 1's from the new value.
-					next_state |= new_value << shift
-
-				# New state so add to list
-				if valid and not history.has(next_state):
-					if next_state == joltage_int:
-						return depth + 1
-
-					history[next_state] = depth + 1
-					button_presses.append(next_state)
-
-					if button_presses.size() >= 50001 and turn > 50000:
-						button_presses = button_presses.slice(50000)
-						turn -= 50000
-
-			turn += 1
-
-		return 0
+		_bloody_joltage(0, temp_joltage) # Start recursion
+		return joltage_presses
 
 
-	func _encode(array: PackedInt32Array) -> int:
-		var out: int = 0
+	var loops: int = 0
+	func _bloody_joltage(index: int, temp_joltage: PackedInt32Array) -> bool:
+		loops += 1
+		var left_overs: PackedInt32Array = joltage.duplicate()
+		var last_node: bool = index == buttons.size() - 1
+		var presses: int = 0
 
-		for i: int in array.size():
-			# Each joltage number should be under 255 so 8 bits is enough
-			out |= (array[i] & 0xFF) << (i * 8)
+		# Calculate left over values
+		for i: int in temp_joltage.size():
+			left_overs[i] -= temp_joltage[i]
+			presses = max(presses, left_overs[i])
 
-		return out
+		# Calculate maximum amount of presses possible
+		for button_index: int in buttons[index]:
+			presses = min(presses, left_overs[button_index])
+
+		# Calculate new temp_joltage
+		for i: int in buttons[index]:
+			temp_joltage[i] += presses
+			left_overs[i] -= presses
+
+		# Early exit, we should skip the loop since deducting won't make
+		# a difference when it comes to the last number.
+		if last_node and temp_joltage != joltage:
+			return false
+
+		# Check if the following buttons give the updates to each int necessary.
+		var button_ids: PackedInt32Array = []
+
+		for i: int in buttons.size() - index:
+			button_ids += buttons[index + i]
+		for i: int in temp_joltage.size():
+			if left_overs[i] != 0 and !button_ids.has(i):
+				return false
+#			elif left_overs[i] == 0 and button_ids.has(i):
+#				if !buttons[index].has(i) and button_ids.count(i) == buttons.size() - index - 1:
+#					return false
+
+		while temp_joltage != joltage:
+			# Check if equal
+			if !last_node and _bloody_joltage(index + 1, temp_joltage.duplicate()):
+				break
+			elif presses == 0:
+				return false
+
+			presses -= 1
+
+			# Calculate new temp_joltage
+			for i: int in buttons[index]:
+				temp_joltage[i] -= 1
+
+		joltage_presses += presses
+		return true
 
 
-	func _decode(value: int) -> PackedInt32Array:
-		var array : PackedInt32Array = []
+	func _sort_buttons(a: PackedInt32Array, b: PackedInt32Array) -> bool:
+			return a.size() > b.size()
 
-		array.resize(joltage.size())
-
-		for i: int in joltage.size():
-			array[i] = (value >> (i * 8)) & 0xFF
-
-		return array
