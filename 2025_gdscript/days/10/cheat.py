@@ -11,16 +11,8 @@ p2 = 0
 print("start")
 remaining = 177
 for line in D.splitlines():
-    print("remaining: ", remaining, "/177")
     remaining -= 1
     words = line.split()
-    goal = words[0]
-    goal = goal[1:-1]
-    goal_n = 0
-    for i,c in enumerate(goal):
-        if c=='#':
-            goal_n += 2**i
-
     buttons = words[1:-1]
     B = []
     NS = []
@@ -56,7 +48,11 @@ for line in D.splitlines():
         o.add(v >= 0)
     assert o.check()
     M = o.model()
+    total = 0
     for d in M.decls():
         p2 += M[d].as_long()
+        total += M[d].as_long()
+
+    print("remaining: ", remaining, "/177 - answer: ", total)
 
 print(p2)
