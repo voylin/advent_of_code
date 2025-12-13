@@ -41,5 +41,5 @@ Made a quick video to show how I set up this years project for Advent of Code wh
     - Live-stream: https://youtube.com/live/AUCCA9oHZiE?feature=share
     - [**Code**](./days/11)
 - Day 12
-    - Live-stream: [Not available]()
+    - Live-stream: https://youtube.com/live/_GZ9n89HlmA
     - [**Code**](./days/12)
