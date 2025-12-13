@@ -50,3 +50,7 @@ re-run={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+
+[threading]
+
+worker_pool/low_priority_thread_ratio=0.9

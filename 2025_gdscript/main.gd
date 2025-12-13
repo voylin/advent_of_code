@@ -62,7 +62,7 @@ func _run(answer_box: LineEdit, time_label: Label, callable: Callable) -> int:
 	await RenderingServer.frame_post_draw
 
 	var now: int = Time.get_ticks_msec()
-	var answer: int = callable.call()
+	var answer: int = await callable.call()
 	var total_time: int = Time.get_ticks_msec() - now
 
 	answer_box.text = str(answer)
