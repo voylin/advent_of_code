@@ -54,49 +54,29 @@ func part_one() -> int:
 
 
 func part_two() -> int:
+	var tasks: PackedInt64Array = []
 	var remaining: int = machines.size()
+
 	for machine: Machine in machines:
-		var value: int = machine.calculate_joltage()
+		tasks.append(WorkerThreadPool.add_task(_run_part_two.bind(machine)))
 
-		remaining -= 1
-		print("remaining: ", remaining, "/", machines.size(), " - answer: ", value)
+	print("Start handling ", machines.size(), " machines...")
 
-		if value == 0:
-			printerr("machine returned 0!!")
-			printerr(machine.joltage)
-
-		answers[1] += value
+	while tasks.size() != 0:
+		await RenderingServer.frame_pre_draw
+		for task_id: int in tasks:
+			if WorkerThreadPool.is_task_completed(task_id):
+				remaining -= 1
+				print("remaining: ", remaining, "/", machines.size())
+				WorkerThreadPool.wait_for_task_completion(task_id)
+				tasks.remove_at(tasks.find(task_id))
 
 	return answers[1]
 
-	# I gave up on this multi-threading since it still takes a long time, but
-	# I wanted to check if the values I get are correct or not so I can just
-	# declare this one to be finished :p
-	#var tasks: PackedInt64Array = []
-	#var remaining: int = machines.size()
 
-	#for machine: Machine in machines:
-	#	tasks.append(WorkerThreadPool.add_task(_run_part_two.bind(machine)))
-
-	#print("Start handling ", machines.size(), " machines...")
-
-	#while tasks.size() != 0:
-	#	await RenderingServer.frame_pre_draw
-	#	for task_id: int in tasks:
-	#		if WorkerThreadPool.is_task_completed(task_id):
-	#			remaining -= 1
-	#			print("remaining: ", remaining, "/", machines.size())
-	#			WorkerThreadPool.wait_for_task_completion(task_id)
-	#			tasks.remove_at(tasks.find(task_id))
-
-	#return answers[1]
-
-
-# 401 is too low
 func _run_part_two(machine: Machine) -> void:
 	var value: int = machine.calculate_joltage()
 	mutex.lock()
-	print(value)
 
 	if value == 0:
 		printerr("machine returned 0!!")
@@ -205,9 +185,7 @@ class Machine:
 		return joltage_presses
 
 
-	var loops: int = 0
 	func _bloody_joltage(index: int, temp_joltage: PackedInt32Array) -> bool:
-		loops += 1
 		var left_overs: PackedInt32Array = joltage.duplicate()
 		var last_node: bool = index == buttons.size() - 1
 		var presses: int = 0
