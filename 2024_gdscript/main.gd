@@ -1,7 +1,7 @@
 extends Control
 
 
-@export_range(1, 12) var day: int = Time.get_date_dict_from_system().day
+@export_range(1, 25) var day: int = Time.get_date_dict_from_system().day
 
 @export_group("Nodes")
 @export var day_label: Label
